@@ -15,7 +15,7 @@ export const verifyOtp = async (req, res) => {
         .json({ errorcode: 1, status: false, msg: errs, data: null });
     }
     const { email, otp } = req.body;
-    let existingUser = await User.findOne({ email });
+    let existingUser = await User.findOne({ email }, {password: 0});
     if (!existingUser) return res.status(404).json({ error: "User not found" });
     if (existingUser.isEmailVerified) {
       return res.status(409).json({ error: "User already exists" });
@@ -26,7 +26,7 @@ export const verifyOtp = async (req, res) => {
       const accessToken = existingUser.generateAuthToken();
       return res.status(200).json({
         message: "Account successully verified",
-        data: { accessToken, user: existerUser },
+        data: { accessToken, user: existingUser },
       });
     }
     return res.status(400).json({ message: "Incorrect OTP" });
@@ -67,7 +67,6 @@ export const register = async (req, res) => {
       await newUser.save();
     }
     const { status } = await sendOtpToEmail(email, name, otp);
-    console.log(status);
     if (status) res.status(201).json({ message: "OTP sent successfully" });
   } catch (e) {
     return res
@@ -96,6 +95,7 @@ export const logIn = async (req, res) => {
       return res.status(401).json({ error: "Incorrect password" });
     if (validPassword) {
       const accessToken = userRepo.generateAuthToken();
+      delete user.password
       return res.status(200).send({
         message: "User authenticated successfully",
         data: { accessToken, user },
