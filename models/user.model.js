@@ -44,7 +44,7 @@ const userModel = new mongoose.Schema(
             type: String,
             default: null
         },
-        profilePic:{}
+        profilePic: { type: String, required: false }
     }
 )
 

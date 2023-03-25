@@ -17,9 +17,11 @@ app.use(bodyparser.json());
 
 import USER_ROUTES from './routes/user.routes.js'
 import AUTH_ROUTES from './routes/auth.routes.js'
+import UTIL_ROUTES from './routes/utils.routes.js'
 
 app.use('/v1/auth', AUTH_ROUTES)
 app.use('/v1/user', USER_ROUTES)
+app.use('/v1/util', UTIL_ROUTES)
 
 app.use((req, res, next) => {
     const error = new Error("Not found");
