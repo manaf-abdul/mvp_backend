@@ -2,6 +2,7 @@ import { generateOTP } from '../utils/otp.util.js'
 import User from '../models/user.model.js'
 import { sendOtpToEmail } from '../services/email.service.js'
 import { validationResult } from "express-validator"
+import bcrypt from 'bcrypt'
 export const verifyOtp = async (req, res) => {
     try {
         const errors = validationResult(req);
