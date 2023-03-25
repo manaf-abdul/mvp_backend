@@ -1,6 +1,6 @@
 import express from 'express'
 import dotenv from 'dotenv'
-import connectDB from './Config/DB.js'
+import connectDB from './config/db.js'
 import cors from 'cors'
 import bodyparser from 'body-parser'
 import morgan from 'morgan'
@@ -15,8 +15,11 @@ app.use(cors());
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 
-// app.use('/api/user', UserRoutes)
+import USER_ROUTES from './routes/user.routes.js'
+import AUTH_ROUTES from './routes/auth.routes.js'
 
+app.use('/v1/auth', AUTH_ROUTES)
+app.use('/v1/user', USER_ROUTES)
 
 app.use((req, res, next) => {
     const error = new Error("Not found");
