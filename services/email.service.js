@@ -1,15 +1,3 @@
-import nodemailer from 'nodemailer'
-
-// Create a transporter for sending emails
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'amoghgopi6@gmail.com',
-    pass: 'kxwhzbtwzlkgzzqx'
-  }
-});
-
-
 import Mailjet from "node-mailjet"
 import dotenv from 'dotenv';
 dotenv.config();
