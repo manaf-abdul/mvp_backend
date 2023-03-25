@@ -26,7 +26,7 @@ export const verifyOtp = async (req, res) => {
       const accessToken = existingUser.generateAuthToken();
       return res.status(200).json({
         message: "Account successully verified",
-        data: { accessToken, user: existingUser },
+        user: { accessToken, ...existingUser },
       });
     }
     return res.status(400).json({ message: "Incorrect OTP" });
@@ -98,7 +98,7 @@ export const logIn = async (req, res) => {
       delete user.password
       return res.status(200).send({
         message: "User authenticated successfully",
-        data: { accessToken, user },
+        user: { accessToken, ...user},
       });
     }
   } catch (error) {
