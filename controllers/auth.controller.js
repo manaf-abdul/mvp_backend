@@ -96,7 +96,6 @@ export const logIn = async (req, res) => {
     if (validPassword) {
       const accessToken = userRepo.generateAuthToken();
       delete user._doc.password
-      console.log(user)
       return res.status(200).send({
         message: "User authenticated successfully",
         user: { accessToken, ...user._doc},
