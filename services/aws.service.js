@@ -16,7 +16,6 @@ export const gets3signedUrl = async (key) => {
             Bucket: S3_BUCKET,
             Key: `${key}`,
             Expires: 43200,
-            ACL: "public-read",
         }
         return s3.getSignedUrlPromise("putObject", params)
     } catch (error) {
