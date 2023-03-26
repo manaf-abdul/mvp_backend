@@ -1,9 +1,8 @@
 import express from "express"
-import { updateProfile } from "../controllers/user.controller.js"
 import { validateAccessToken } from "../middlewares/auth.js"
-import {user} from "../middlewares/validation.js"
 import trim from "../middlewares/trim.js"
+import { getSignedUrl } from "../controllers/utils.controller.js"
 const router=express.Router()
 router.route("/pre-signed-url/:key")
-    .get(validateAccessToken,trim,updateProfile)
+    .get(validateAccessToken,trim,getSignedUrl)
 export default router

@@ -1,4 +1,4 @@
-import { gets3signedUrl } from "../services/aws.service";
+import { gets3signedUrl } from "../services/aws.service.js";
 
 export const getSignedUrl = async (req, res) => {
   const key = req.params.key;
@@ -7,7 +7,6 @@ export const getSignedUrl = async (req, res) => {
     return res
       .status(200)
       .json({ signedUrl });
-
   }
   return res.status(500).json({message: "INTERNAL SERVER ERROR"})
 };
