@@ -27,15 +27,13 @@ export const updateProfile = async (req, res) => {
       seeking,
       profilePic,
       userId,
+      userName
     } = req.body;
-    let userName = null
-    const existingUserName = await User.find({ firstName: firstName.toLowerCase() })
-    if(existingUserName.length) userName = "firstName" + (existingUserName.length + 1)
-    else userName = userName
+
     const user = await User.findById(userId);
     user.firstName = firstName;
     user.lastName = lastName;
-    user.userName = userName;
+    user.userName = userName ?? user.userName;
     user.contactNumber = contactNumber;
     user.dob = dob;
     user.linkedInProfile = linkedInProfile;
@@ -65,5 +63,16 @@ export const usernameChecker = async (req, res) => {
     else res.status(200).json({ isExisting: isExisting });
   } catch (error) {
      res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
+export const getUserDetails = async (req, res) => {
+  try {
+    const userName = req.params.userName
+    const user = await User.findOne({userName: userName}, {password: 0, dob: 0})
+    if(!user) res.status(404).json({ message: "User not found" });
+    res.status(200).json({user})
+  } catch (error) {
+    
   }
 }
