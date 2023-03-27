@@ -13,34 +13,57 @@ export const updateProfile = async (req, res) => {
         .json({ errorcode: 1, status: false, msg: errs, data: null });
     }
     const {
-      name,
+      firstName,
+      lastName,
       contactNumber,
       dob,
       linkedInProfile,
-      currentCity,
+      city,
       about,
-      currentOrganization,
+      organization,
       department,
       skills,
-      keywords,
-      userEmail,
+      abilities,
+      seeking,
+      profilePic,
+      userId,
     } = req.body;
-    const user = await User.findOne({ userEmail });
-    user.name = name;
+    let userName = null
+    const existingUserName = await User.find({ firstName: firstName.toLowerCase() })
+    if(existingUserName.length) userName = "firstName" + (existingUserName.length + 1)
+    else userName = userName
+    const user = await User.findById(userId);
+    user.firstName = firstName;
+    user.lastName = lastName;
+    user.userName = userName;
     user.contactNumber = contactNumber;
     user.dob = dob;
     user.linkedInProfile = linkedInProfile;
-    user.currentCity = currentCity;
+    user.city = city;
     user.about = about;
-    user.currentOrganization = currentOrganization;
+    user.organization = organization;
     user.department = department;
+    user.abilities = abilities;
+    user.seeking = seeking;
     user.skills = skills;
-    user.keywords = keywords;
+    user.profilePic = profilePic
     await user.save();
     res.status(200).json({ message: "User profile updated successfully" });
   } catch (e) {
     return res
-      .status(200)
-      .json({ errorcode: 5, status: false, msg: e.message, data: null });
+      .status(500)
+      .json({ message: e.message, data: null });
   }
 };
+
+export const usernameChecker = async (req, res) => {
+  try {
+    const userName = req.params.userName;
+    const user = await User.findOne({ userName });
+    const isExisting = Boolean(user);
+    if(isExisting) res.status(409).json({ isExisting: isExisting });
+    else res.status(200).json({ isExisting: isExisting });
+  } catch (error) {
+     res.status(500).json({ error: 'Internal server error' });
+  }
+}

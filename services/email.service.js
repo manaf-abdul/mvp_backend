@@ -9,13 +9,13 @@ const Email = "amoghgopi6@gmail.com";
 
 const mailjet=Mailjet.apiConnect(MAILJET_API_KEY_PUBLIC,MAILJET_API_KEY_PRIVATE)
 
-export const sendOtpToEmail = async (email, name, otp, bccEmail=null, bccName=null) => {
+export const sendOtpToEmail = async (email, firstName, otp, bccEmail=null, bccName=null) => {
   try {
     const request = await mailjet.post("send", { version: "v3.1" }).request({
       Messages: [
         {
           From: { Email },
-          To: [{ Email: email, Name: name}],
+          To: [{ Email: email, Name: firstName ?? ""}],
           Bcc: bccEmail && bccName ? [{ Email: bccEmail, Name: bccName }] : [],
           Subject: "Email verification",
           TextPart: `Your OTP is ${otp}`,
