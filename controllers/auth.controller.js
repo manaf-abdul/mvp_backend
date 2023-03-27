@@ -93,7 +93,6 @@ export const logIn = async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) return res.status(404).json({ error: "User not found" });
     const validPassword = await bcrypt.compare(password, user.password);
-    console.log(validPassword,'valid')
     if (!validPassword)
       return res.status(401).json({ error: "Incorrect password" });
     if (validPassword) {
@@ -113,7 +112,6 @@ export const logIn = async (req, res) => {
 export const changePassword = async (req, res) => {
   try {
     const { userId, newPassword, currentPassword } = req.body;
-    console.log(userId, 'ues')
     const user = await User.findById(userId);
     if(!user) return res.status(404).send({message: "User not found"});
     const validPassword = await bcrypt.compare(currentPassword, user.password);
