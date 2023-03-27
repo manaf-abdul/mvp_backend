@@ -8,10 +8,10 @@ export const validateAccessToken = (req, res, next) => {
   const accessToken = authHeader.split(" ")[1];
   try {
     const decoded = jwt.verify(accessToken, process.env.JWT_PRIVATE_KEY);
-    req.userEmail = decoded.email;
+    req.body.userEmail = decoded.email;
+    req.body.userId = decoded._id;
     next();
   } catch (error) {
-    console.error(error);
     res.status(401).json({ error: "Unauthorized" });
   }
 };

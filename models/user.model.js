@@ -4,7 +4,8 @@ import jwt from 'jsonwebtoken';
 
 const userModel = new mongoose.Schema(
     {
-        name: { type: String, required: false },
+        firstName: { type: String, required: false },
+        lastName: { type: String, required: false },
         contactNumber: { type: String },
         email: {
             type: String,
@@ -14,7 +15,7 @@ const userModel = new mongoose.Schema(
             lowercase: true,
             unique: true
         },
-        otp: { type: Number, default: true},
+        otp: { type: Number, default: null},
         isEmailVerified: { type: Boolean, default: false },
         dob: { type: Date, required: false },
         gender: {
@@ -26,24 +27,17 @@ const userModel = new mongoose.Schema(
             type: String,
             default:null
         },
-        googleId: {
-            type: String,
-            required: false,
-            default:null
-        },
         linkedInProfile: { type: String },
-        currentCity: { type: String, required: false },
+        city: { type: String, required: false },
         about: { type: String },
-        currentOrganization: { type: String },
+        organization: { type: String },
         department: { type: String },
         meetingLink: { type: String },
         skills: [{ type: String }],
-        keywords: [{ type: String }],
+        abilities: [{ type: String }],
+        seeking: [{ type: String }],
         password: { type: String, required: false },
-        dateOfBirth:{
-            type: String,
-            default: null
-        },
+        userName: { type: String, required: false, unique: true},
         profilePic: { type: String, required: false }
     }
 )
@@ -53,7 +47,7 @@ userModel.pre('save',async function(next){
         next()
     }
     const salt=await bcrypt.genSalt(10)
-    this.password=await bcrypt.hash(this.password,salt)
+    this.password= await bcrypt.hash(this.password,salt)
 })
 const User=mongoose.model("User",userModel)
 
