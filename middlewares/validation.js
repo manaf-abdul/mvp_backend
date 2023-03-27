@@ -10,7 +10,8 @@ export const auth = (method) => {
         case "register": {
             return [
                 check("email", "Email is required.").isEmail(),
-                check("name", "Name is required.").not().isEmpty(),
+                check("firstName", "First name is required.").not().isEmpty(),
+                check("lastName", "First name is required.").not().isEmpty(),
                 check("password", "Password is required.").not().isEmpty().isLength({ min: 6 }),
                 check("confirmPassword", "Passwords do not match.").custom((value, { req }) => value === req.body.password)
             ]

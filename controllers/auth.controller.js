@@ -54,7 +54,7 @@ export const register = async (req, res) => {
       res.status(409).json({ message: "Account already exist" });
     const otp = generateOTP();
     if (existingUser) {
-      existingUser.name = firstName;
+      existingUser.firstName = firstName;
       existingUser.lastName = lastName;
       existingUser.email = email;
       existingUser.password = password;
@@ -63,6 +63,7 @@ export const register = async (req, res) => {
     } else {
       const newUser = new User();
       newUser.firstName = firstName;
+      newUser.lastName = lastName;
       newUser.email = email;
       newUser.password = password;
       newUser.otp = otp;
